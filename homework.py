@@ -104,8 +104,7 @@ class SportsWalking(Training):
             ((self.COEF_W_1 * self.weight
               + ((self.get_mean_speed() * self.KMH_MS)**2
                  / self.height / self.CM_M)
-              * self.COEF_W_2 * self.weight) * self.duration * self.H_M) 
-
+              * self.COEF_W_2 * self.weight) * self.duration * self.H_M)
         )
 
     def show_training_info(self) -> InfoMessage:
