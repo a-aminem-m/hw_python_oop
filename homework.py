@@ -100,12 +100,16 @@ class SportsWalking(Training):
         return (self.action * self.LEN_STEP / self.M_IN_KM * self.KMH_MS)
 
     def get_spent_calories(self) -> float:
-        return (
-            ((self.COEF_W_1 * self.weight
-              + ((self.get_mean_speed() * self.KMH_MS)**2
-                 / self.height / self.CM_M)
-              * self.COEF_W_2 * self.weight) * self.duration * self.H_M)
-        )
+        mean_speed_ms: float = self.get_mean_speed() * self.KMH_IN_MSEC
+        spent_calories: float = ((self.CALORIES_FIRST_WEIGTH_MULTIPLIER
+                                 * self.weight_kg
+                                 + (mean_speed_ms ** 2
+                                  / (self.height / self.CM_IN_M))
+                                 * self.CALORIES_SECOND_WEIGTH_MULTIPLIER
+                                 * self.weight_kg)
+                                 * self.duration_h
+                                 * self.MIN_IN_H)
+        return spent_calories
 
     def show_training_info(self) -> InfoMessage:
         calories = self.get_spent_calories()
