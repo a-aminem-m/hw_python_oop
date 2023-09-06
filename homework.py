@@ -97,7 +97,7 @@ class SportsWalking(Training):
         self.height = height
 
     def get_distance(self) -> float:
-        return (self.action * self.LEN_STEP / self.M_IN_KM * self.KMH_MS)
+        return (self.action * self.LEN_STEP / self.M_IN_KM)
 
     def get_spent_calories(self) -> float:
         return (
