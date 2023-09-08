@@ -55,7 +55,7 @@ class Training:
 
         # Создаем объект класса InfoMessage и возвращаем его
         return InfoMessage(
-            training_type=self.training_type,
+            training_type=self.__class__.__name__,
             duration=self.duration,
             distance=distance,
             speed=speed,
@@ -77,12 +77,6 @@ class Running(Training):
              + self.CALORIES_MEAN_SPEED_SHIFT)
             * self.weight / self.M_IN_KM * self.duration * self.H_M
         )
-
-    def show_training_info(self) -> InfoMessage:
-        calories = self.get_spent_calories()
-        distance = self.get_distance()
-        speed = self.get_mean_speed()
-        return InfoMessage('Бег', self.duration, distance, speed, calories)
 
 
 class SportsWalking(Training):
@@ -109,13 +103,6 @@ class SportsWalking(Training):
              * duration_m)
         )
 
-    def show_training_info(self) -> InfoMessage:
-        calories = self.get_spent_calories()
-        distance = self.get_distance()
-        speed = self.get_mean_speed()
-        return InfoMessage('Спортивная ходьба', self.duration,
-                           distance, speed, calories)
-
 
 class Swimming(Training):
     """Тренировка: плавание."""
@@ -138,13 +125,6 @@ class Swimming(Training):
     def get_spent_calories(self) -> float:
         return ((self.get_mean_speed() + self.COEF_SP) * self.COEF_CAL
                 * self.weight * self.duration)
-
-    def show_training_info(self) -> InfoMessage:
-        calories = self.get_spent_calories()
-        distance = self.get_distance()
-        speed = self.get_mean_speed()
-        return InfoMessage('Плавание', self.duration,
-                           distance, speed, calories)
 
 
 def read_package(workout_type: str, data: list) -> Training:
