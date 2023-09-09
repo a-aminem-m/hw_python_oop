@@ -1,39 +1,32 @@
+from dataclasses import dataclass, asdict
+
+
+@dataclass
 class InfoMessage:
-    """Информационное сообщение о тренировке."""
-    def __init__(self, training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float
-                 ) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
+    training_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
 
     def get_message(self) -> str:
-        return (f'Тип тренировки: {self.training_type}; '
-                f'Длительность: {self.duration:.3f} ч.; '
-                f'Дистанция: {self.distance:.3f} км; '
-                f'Ср. скорость: {self.speed:.3f} км/ч; '
-                f'Потрачено ккал: {self.calories:.3f}.')
+        training_data = asdict(self)
+        return (f'Тип тренировки: {training_data["training_type"]}; '
+                f'Длительность: {training_data["duration"]:.3f} ч.; '
+                f'Дистанция: {training_data["distance"]:.3f} км; '
+                f'Ср. скорость: {training_data["speed"]:.3f} км/ч; '
+                f'Потрачено ккал: {training_data["calories"]:.3f}.')
 
 
+@dataclass
 class Training:
     """Базовый класс тренировки."""
-    M_IN_KM = 1000
-    LEN_STEP = 0.65
-    H_M = 60
-
-    def __init__(self,
-                 action: int,
-                 duration: float,
-                 weight: float,
-                 ) -> None:
-        self.action = action
-        self.duration = duration
-        self.weight = weight
+    action: int
+    duration: float
+    weight: float
+    M_IN_KM: int = 1000
+    LEN_STEP: float = 0.65
+    H_M: int = 60
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -45,7 +38,8 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий. Ккал"""
-        pass
+        raise NotImplementedError("Метод get_spent_calories переопределен "
+                                  "в дочерних классах.")
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -138,6 +132,8 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type in training_classes:
         training_class = training_classes[workout_type]
         return training_class(*data)
+    else:
+        raise ValueError(f"Тип тренировки '{workout_type}' не поддерживается.")
 
 
 def main(training: Training) -> None:
