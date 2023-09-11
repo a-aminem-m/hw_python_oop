@@ -12,11 +12,14 @@ class InfoMessage:
 
     def get_message(self) -> str:
         training_data = asdict(self)
-        return (f'Тип тренировки: {training_data["training_type"]}; '
-                f'Длительность: {training_data["duration"]:.3f} ч.; '
-                f'Дистанция: {training_data["distance"]:.3f} км; '
-                f'Ср. скорость: {training_data["speed"]:.3f} км/ч; '
-                f'Потрачено ккал: {training_data["calories"]:.3f}.')
+        message = (
+            'Тип тренировки: {training_type}; '
+            'Длительность: {duration:.3f} ч.; '
+            'Дистанция: {distance:.3f} км; '
+            'Ср. скорость: {speed:.3f} км/ч; '
+            'Потрачено ккал: {calories:.3f}.'
+        )
+        return message.format(**training_data)
 
 
 @dataclass
