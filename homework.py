@@ -3,6 +3,7 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class InfoMessage:
+    """Информационное сообщение о тренировке."""
     training_type: str
     duration: float
     distance: float
@@ -46,7 +47,6 @@ class Training:
         calories = self.get_spent_calories()
         distance = self.get_distance()
         speed = self.get_mean_speed()
-
         # Создаем объект класса InfoMessage и возвращаем его
         return InfoMessage(
             training_type=self.__class__.__name__,
