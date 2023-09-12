@@ -1,36 +1,39 @@
-from dataclasses import dataclass, asdict
-
-
-@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    training_type: str
-    duration: float
-    distance: float
-    speed: float
-    calories: float
+    def __init__(self, training_type: str,
+                 duration: float,
+                 distance: float,
+                 speed: float,
+                 calories: float
+                 ) -> None:
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
     def get_message(self) -> str:
-        training_data = asdict(self)
-        message = (
-            'Тип тренировки: {training_type}; '
-            'Длительность: {duration:.3f} ч.; '
-            'Дистанция: {distance:.3f} км; '
-            'Ср. скорость: {speed:.3f} км/ч; '
-            'Потрачено ккал: {calories:.3f}.'
-        )
-        return message.format(**training_data)
+        return (f'Тип тренировки: {self.training_type}; '
+                f'Длительность: {self.duration:.3f} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
 
 
-@dataclass
 class Training:
     """Базовый класс тренировки."""
-    action: int
-    duration: float
-    weight: float
-    M_IN_KM: int = 1000
-    LEN_STEP: float = 0.65
-    H_M: int = 60
+    M_IN_KM = 1000
+    LEN_STEP = 0.65
+    H_M = 60
+
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float,
+                 ) -> None:
+        self.action = action
+        self.duration = duration
+        self.weight = weight
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -152,7 +155,6 @@ if __name__ == '__main__':
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
-
     for training_type, data in packages:
         training = read_package(training_type, data)
         main(training)
