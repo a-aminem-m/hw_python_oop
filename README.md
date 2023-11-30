@@ -1,5 +1,7 @@
 # Workout Tracker
 
+###### (This project was developed during the "Python Developer" training program at [Yandex.Practicum](https://practicum.yandex.ru/), as a part of the learning curriculum.)
+
 ## Description
 This project is a workout tracker written in Python. It provides basic classes for various types of workouts and allows for the analysis of sensor data, displaying information about completed workouts.
 
