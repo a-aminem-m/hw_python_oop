@@ -1,5 +1,5 @@
 class InfoMessage:
-    """Информационное сообщение о тренировке."""
+    """Training information."""
     def __init__(self, training_type: str,
                  duration: float,
                  distance: float,
@@ -13,15 +13,15 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        return (f'Тип тренировки: {self.training_type}; '
-                f'Длительность: {self.duration:.3f} ч.; '
-                f'Дистанция: {self.distance:.3f} км; '
-                f'Ср. скорость: {self.speed:.3f} км/ч; '
-                f'Потрачено ккал: {self.calories:.3f}.')
+        return (f'Type of workout: {self.training_type}; '
+                f'Duration: {self.duration:.3f} ч.; '
+                f'Distance: {self.distance:.3f} км; '
+                f'Average speed: {self.speed:.3f} км/ч; '
+                f'Kilocalories burned: {self.calories:.3f}.')
 
 
 class Training:
-    """Базовый класс тренировки."""
+    """Basic training class."""
     M_IN_KM = 1000
     LEN_STEP = 0.65
     H_M = 60
@@ -36,24 +36,25 @@ class Training:
         self.weight = weight
 
     def get_distance(self) -> float:
-        """Получить дистанцию в км."""
+        """Get the distance in km."""
         return self.action * self.LEN_STEP / self.M_IN_KM
 
     def get_mean_speed(self) -> float:
-        """Получить среднюю скорость движения. км/ч"""
+        """Get the average driving speed. km/h"""
         return (self.get_distance() / self.duration)
 
     def get_spent_calories(self) -> float:
-        """Получить количество затраченных калорий. Ккал"""
-        raise NotImplementedError("Метод get_spent_calories переопределен "
-                                  "в дочерних классах.")
+        """ПGet the number of calories burned. Kcal"""
+        raise NotImplementedError("The get_spent_calories method "
+                                  "is overridden in child classes.")
+        
 
     def show_training_info(self) -> InfoMessage:
-        """Вернуть информационное сообщение о выполненной тренировке."""
+        """Return an information message about the completed workout."""
         calories = self.get_spent_calories()
         distance = self.get_distance()
         speed = self.get_mean_speed()
-        # Создаем объект класса InfoMessage и возвращаем его
+        # Create an object of the InfoMessage class and return it
         return InfoMessage(
             training_type=self.__class__.__name__,
             duration=self.duration,
@@ -64,7 +65,7 @@ class Training:
 
 
 class Running(Training):
-    """Тренировка: бег."""
+    """Workout: running."""
     CALORIES_MEAN_SPEED_MULTIPLIER = 18
     CALORIES_MEAN_SPEED_SHIFT = 1.79
 
@@ -80,7 +81,7 @@ class Running(Training):
 
 
 class SportsWalking(Training):
-    """Тренировка: спортивная ходьба."""
+    """Workout: race walking."""
     COEF_W_1 = 0.035
     COEF_W_2 = 0.029
     KMH_MS = 0.278
@@ -105,7 +106,7 @@ class SportsWalking(Training):
 
 
 class Swimming(Training):
-    """Тренировка: плавание."""
+    """Workout: swimming."""
     LEN_STEP = 1.38
     COEF_SP = 1.1
     COEF_CAL = 2
@@ -128,7 +129,7 @@ class Swimming(Training):
 
 
 def read_package(workout_type: str, data: list) -> Training:
-    """Прочитать данные полученные от датчиков."""
+    """Read data received from sensors."""
     training_classes = {
         'SWM': Swimming,
         'RUN': Running,
@@ -139,11 +140,11 @@ def read_package(workout_type: str, data: list) -> Training:
         training_class = training_classes[workout_type]
         return training_class(*data)
     else:
-        raise ValueError(f"Тип тренировки '{workout_type}' не поддерживается.")
+        raise ValueError(f"The '{workout_type}' workout type is not supported.")
 
 
 def main(training: Training) -> None:
-    """Главная функция."""
+    """Main function."""
     info = training.show_training_info()
     message = info.get_message()
     print(message)
